@@ -5,9 +5,21 @@ import 'tachyons';
 import App from './containers/App';
 import reportWebVitals from './reportWebVitals';
 
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
+import thunkMiddleware from 'redux-thunk';
+import { createLogger } from 'redux-logger';
+import { searchCats, getCats } from './reducers';
+
+const logger = createLogger();
+const rootReducer = combineReducers({ searchCats, getCats });
+const store = createStore(rootReducer, applyMiddleware(thunkMiddleware, logger));
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
